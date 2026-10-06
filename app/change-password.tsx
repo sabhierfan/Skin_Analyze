@@ -50,7 +50,7 @@ export default function ChangePassword() {
         router.back();
       }, 1500);
     } catch (err: any) {
-      if (err.code === 'auth/wrong-password') {
+      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
         setError('Current password is incorrect.');
       } else if (err.code === 'auth/weak-password') {
         setError('New password is too weak.');

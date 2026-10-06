@@ -39,7 +39,13 @@ export const loginUser = async ({ email, password }: { email: string; password: 
     }));
     return user;
   } catch (error: any) {
-    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+    // Firebase v10+ with email enumeration protection reports both cases as
+    // auth/invalid-credential; the older codes are kept for projects without it.
+    if (
+      error.code === 'auth/invalid-credential' ||
+      error.code === 'auth/user-not-found' ||
+      error.code === 'auth/wrong-password'
+    ) {
       throw new Error('Invalid email or password. Please try again.');
     }
     throw new Error(error.message);
